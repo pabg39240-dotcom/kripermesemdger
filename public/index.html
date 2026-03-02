@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Kripermesemdger</title>
+  <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+  <h2>Kripermesemdger</h2>
+
+  <input id="msg" placeholder="Сообщение..." />
+  <button onclick="send()">Отправить</button>
+
+  <ul id="chat"></ul>
+
+  <script>
+    const socket = io();
+
+    function send() {
+      const input = document.getElementById("msg");
+      socket.emit("send_message", input.value);
+      input.value = "";
+    }
+
+    socket.on("new_message", (msg) => {
+      const li = document.createElement("li");
+      li.innerText = msg;
+      document.getElementById("chat").appendChild(li);
+    });
+  </script>
+</body>
+</html>
